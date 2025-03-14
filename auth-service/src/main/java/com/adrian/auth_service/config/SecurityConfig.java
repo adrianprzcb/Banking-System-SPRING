@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,13 +25,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()  // Allow these endpoints
+                .requestMatchers("/h2-console/**").permitAll()  // Allow H2 Console access
+                .anyRequest().authenticated()  // Other requests need authentication
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    
+        // Disable frame options for H2 Console (needed to access the H2 console)
+        http.headers(headers -> headers.frameOptions().disable());
+        
         return http.build();
     }
+    
 
     @Bean
     public PasswordEncoder passwordEncoder() {
