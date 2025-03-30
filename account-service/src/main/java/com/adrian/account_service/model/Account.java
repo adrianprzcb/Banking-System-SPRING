@@ -1,4 +1,4 @@
-package main.java.com.adrian.account_service.model;
+package com.adrian.account_service.model;
 
 import jakarta.persistence.*;
 import lombok.*;
