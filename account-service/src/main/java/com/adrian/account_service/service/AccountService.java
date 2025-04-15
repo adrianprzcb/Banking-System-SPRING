@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class AccountService {
         return AccountMapper.toResponse(saved);
     }
 
-    public Optional<AccountResponse> getAccountByUserId(UUID userId) {
+    public Optional<AccountResponse> getAccountByUserId(Long userId) {
         return accountRepository.findByUserId(userId)
                 .map(AccountMapper::toResponse);
     }

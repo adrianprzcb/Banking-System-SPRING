@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 @Builder
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     
-    private UUID userId; // From auth-service
+    private Long userId; // From auth-service
     
     private String name;
     private String email;

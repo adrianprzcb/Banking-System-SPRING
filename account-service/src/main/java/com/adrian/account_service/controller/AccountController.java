@@ -30,7 +30,7 @@ public class AccountController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<AccountResponse> getAccountByUserId(@PathVariable UUID userId) {
+    public ResponseEntity<AccountResponse> getAccountByUserId(@PathVariable Long userId) {
         return accountService.getAccountByUserId(userId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
